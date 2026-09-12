@@ -9,6 +9,9 @@ function openReturn(order, lines) {
   }
 
   const returnLines = lines.filter((line) => !line.finalClearance);
+  if (returnLines.length === 0) {
+    throw new Error('Final-clearance items cannot be returned');
+  }
 
   return {
     orderId: order.id,
