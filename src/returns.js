@@ -12,8 +12,15 @@ function openReturn(order, lines) {
     (Date.now() - new Date(order.createdAt).getTime()) /
     (1000 * 60 * 60 * 24);
 
-  if (orderAgeDays > 30) {
+  const RETURN_WINDOW_DAYS = 30;
+
+  if (orderAgeDays > RETURN_WINDOW_DAYS) {
     throw new Error('Returns outside 30 days are not allowed');
+  }
+
+  const returnLines = lines.filter((line) => !line.finalClearance);
+  if (returnLines.length === 0) {
+    throw new Error('Final-clearance items cannot be returned');
   }
 
   return {
