@@ -8,6 +8,14 @@ function openReturn(order, lines) {
     throw new Error('A return must cover at least one line');
   }
 
+  const orderAgeDays =
+    (Date.now() - new Date(order.createdAt).getTime()) /
+    (1000 * 60 * 60 * 24);
+
+  if (orderAgeDays > 30) {
+    throw new Error('Returns outside 30 days are not allowed');
+  }
+
   return {
     orderId: order.id,
     lines,
