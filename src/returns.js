@@ -8,9 +8,11 @@ function openReturn(order, lines) {
     throw new Error('A return must cover at least one line');
   }
 
+  const returnLines = lines.filter((line) => !line.finalClearance);
+
   return {
     orderId: order.id,
-    lines,
+    lines: returnLines,
     raisedAt: new Date().toISOString(),
     approvedBy: null,
     approvedAt: null,
