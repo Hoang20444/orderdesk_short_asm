@@ -18,14 +18,17 @@ function openReturn(order, lines) {
     throw new Error('Returns outside 30 days are not allowed');
   }
 
+  // Keep both rules: the return-window policy applies to the whole order,
+  // while final-clearance filtering applies only to the requested lines.
   const returnLines = lines.filter((line) => !line.finalClearance);
+
   if (returnLines.length === 0) {
     throw new Error('Final-clearance items cannot be returned');
   }
 
   return {
     orderId: order.id,
-    lines,
+    lines: returnLines,
     raisedAt: new Date().toISOString(),
     approvedBy: null,
     approvedAt: null,
